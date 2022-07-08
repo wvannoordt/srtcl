@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-    const std::size_t port = 8080;
+    const srtcl::remote::port_t port = 8080;
     srtcl::remote::ip_addr_t ip("127.0.0.1");
     
     srtcl::remote::tcp_server_t server(port);

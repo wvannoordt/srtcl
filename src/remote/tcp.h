@@ -10,6 +10,7 @@
 
 namespace srtcl::remote
 {
+    typedef uint32_t port_t;
     class remote_exception: virtual public std::exception
     {
         protected:
@@ -70,8 +71,7 @@ namespace srtcl::remote
     template <const std::size_t buf_size = 1024> class tcp_client_t
     {
         public:
-            typedef uint32_t port_type;
-            tcp_client_t(const ip_addr_t& ip_in, const port_type& port_in)
+            tcp_client_t(const ip_addr_t& ip_in, const port_t& port_in)
             {
                 ip = ip_in;
                 tcp_port = port_in;
@@ -79,7 +79,7 @@ namespace srtcl::remote
                 serv_addr.sin_port = htons(tcp_port);
                 connected = false;
             }
-            port_type port   (void)      const {return tcp_port;}
+            port_t port   (void)      const {return tcp_port;}
             ip_addr_t ip_addr(void)      const {return ip;}
             bool      is_connected(void) const {return connected;}
             
@@ -98,7 +98,7 @@ namespace srtcl::remote
             
         private:
             int socket = 0;
-            port_type tcp_port;
+            port_t tcp_port;
             struct sockaddr_in serv_addr;
             char buffer[buf_size] = {0};
             ip_addr_t ip;
@@ -108,15 +108,14 @@ namespace srtcl::remote
     template <const std::size_t buf_size = 1024> class tcp_server_t
     {
         public:
-            typedef uint32_t port_type;
-            tcp_server_t(const port_type& port_in)
+            tcp_server_t(const port_t& port_in)
             {
                 tcp_port = port_in;
                 address.sin_family = AF_INET;
                 address.sin_addr.s_addr = INADDR_ANY;
                 address.sin_port = htons(port_in);
             }
-            port_type port (void) const {return tcp_port;}
+            port_t port (void) const {return tcp_port;}
             void host(void)
             {
                 if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -142,7 +141,7 @@ namespace srtcl::remote
             }
 
         private:
-            port_type tcp_port;
+            port_t tcp_port;
             int server_fd, new_socket, valread;
             struct sockaddr_in address; 
             int opt = 1;
