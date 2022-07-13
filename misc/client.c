@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
     { 
         printf("\n Socket creation error \n"); 
         return -1; 
-    } 
+    }
    
     serv_addr.sin_family = AF_INET; 
     serv_addr.sin_port = htons(PORT);
